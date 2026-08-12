@@ -10,6 +10,8 @@ COPY --from=composer:2 /usr/bin/composer /usr/local/bin/composer
 WORKDIR /app
 COPY . .
 RUN composer install --no-dev --optimize-autoloader
+RUN php artisan config:clear
+RUN php artisan cache:clear
 
 EXPOSE 8000
 CMD ["sh", "-c", "php artisan serve --host=0.0.0.0 --port=${PORT:-8000}"]
